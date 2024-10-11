@@ -1,10 +1,53 @@
 ﻿@page
-@model IndexModel
-@{
-    ViewData["Title"] = "Home page";
-}
+<head>
+    <style>
+        table {
+          font-family: arial, sans-serif;
+          border-collapse: collapse;
+          width: 100%;
+        }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+        td, th {
+          border: 1px solid #dddddd;
+          text-align: left;
+          padding: 8px;
+        }
+
+        tr:nth-child(even) {
+          background-color: #dddddd;
+        }
+    </style>
+</head>
+<div class="container">
+    <div class="row p-1">
+        <div class="col-1">Door Label</div>
+        <div class="col-5"><input type="text" class="w-100" id="doorLabel" /></div>
+    </div>
+    <div class="row p-1">
+        <div class="col-6 text-end">
+            <input type="button" id="addDoor" value="Add Door" />
+        </div>
+    </div>
+    <div class="row p-1">
+        <div class="col-6">
+            <ul id="doorList"></ul>
+        </div>
+    </div>
+    <table id=doorTable>
+        <tr>
+            <th>Id</th>
+            <th>Label</th>
+            <th>Is Closed</th>
+            <th>Open</th>
+            <th>Close</th>
+            <th>Is Locked</th>
+            <th>Lock</th>
+            <th>Unlock</th>
+            <th>Remove</th>
+        </tr>
+    </table>
 </div>
+<div id="errors">
+</div>
+<script src="~/js/signalr/dist/browser/signalr.js"></script>
+<script src="~/js/doorClient.js"></script>
