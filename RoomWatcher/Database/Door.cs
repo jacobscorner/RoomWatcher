@@ -19,6 +19,13 @@
         }
 
 
+        public static Door getDoor(string doorId)
+        {
+            Door door;
+            DoorsDict.TryGetValue(doorId, out door);            
+            return door;
+        }
+
         public static List<Door> getDoors()
         {
             List<Door> doors = new List<Door>();
@@ -38,15 +45,18 @@
         }
 
         public static void removeDoor(string doorId)
-        {
-            DoorsDict.Remove(doorId);
+        {            
+            Door door = getDoor(doorId);
+            if (door != null)
+            {
+                DoorsDict.Remove(doorId);
+            }            
         }
 
         public static Door LockDoor(string doorId)
         {
-            Door door;
-            DoorsDict.TryGetValue(doorId, out door);
-            if (door != null && door.IsClosed)
+            Door door = getDoor(doorId);
+            if (door != null)
             {
                 door.IsLocked = true;
             }
@@ -55,9 +65,8 @@
 
         public static Door UnlockDoor(string doorId)
         {
-            Door door;
-            DoorsDict.TryGetValue(doorId, out door);
-            if (door != null && door.IsLocked)
+            Door door = getDoor(doorId);
+            if (door != null)
             {
                 door.IsLocked = false;
             }
@@ -66,9 +75,8 @@
 
         public static Door OpenDoor(string doorId)
         {
-            Door door;
-            DoorsDict.TryGetValue(doorId, out door);
-            if (door != null && door.IsClosed)
+            Door door = getDoor(doorId);
+            if (door != null)
             {
                 door.IsClosed = false;
             }
@@ -77,9 +85,8 @@
 
         public static Door CloseDoor(string doorId)
         {
-            Door door;
-            DoorsDict.TryGetValue(doorId, out door);
-            if (door != null && !door.IsClosed)
+            Door door = getDoor(doorId);
+            if (door != null)
             {
                 door.IsClosed = true;
             }
