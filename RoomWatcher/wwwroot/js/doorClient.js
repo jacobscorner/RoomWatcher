@@ -2,39 +2,56 @@
 
 var connection = new signalR.HubConnectionBuilder().withUrl("/doorHub").build();
 
-connection.on("SyncAcked", function(doorListData) {
-    const doorList = JSON.parse(doorListData);
-    doorList.forEach(presentDoor);
+let listenerMapForOpenButton = {};
+let listenerMapForCloseButton = {};
+let listenerMapForLockButton = {};
+let listenerMapForUnlockButton = {};
+let listenerMapForRemoveButton = {};
+
+connection.on("HandleError", function (message) {
+    addErrorMessage(message);        
 });
 
-connection.on("HandleError", function(errorMessage) {
+connection.on("HandleWarning", function (message) {
+    addWarningMessage(message);
+});
+
+function addSuccessMessage(message) {
     clearMessages();
-    var errorElement = document.getElementById("errors");
-    errorElement.innerHTML = errorMessage;
-    errorElement.style.fontWeight = 'bold';
-    errorElement.style.color = 'red';
-    
-});
-
-connection.on("DoorAdded", function(doorData) {
-    clearMessages();
-    const door = JSON.parse(doorData);
-    presentDoor(door);
-    addMessage("A new door has been added.");
-});
-
-function clearMessages()
-{
-    document.getElementById("errors").innerHTML = "";
-    document.getElementById("messages").innerHTML = "";
+    addMessage(message, 'green');
 }
 
-function addMessage(message) {
+function addErrorMessage(message) {
+    clearMessages();
+    addMessage(message, 'red');
+}
+
+function addWarningMessage(message) {
+    clearMessages();
+    addMessage(message, 'orange');
+}
+
+function addMessage(message, color) {
     var messageElement = document.getElementById("messages");
     messageElement.innerHTML = message;
     messageElement.style.fontWeight = 'bold';
-    messageElement.style.color = 'green';
+    messageElement.style.color = color;
 }
+
+function clearMessages() {
+    document.getElementById("messages").innerHTML = "";
+}
+
+connection.on("SynchronizeClient", function (doorListData) {
+    const doorList = JSON.parse(doorListData);
+    doorList.forEach(presentDoor);
+});
+connection.on("DoorAdded", function(doorData) {    
+    const door = JSON.parse(doorData);
+    presentDoor(door);
+    addSuccessMessage("A new door has been added.");
+});
+
 function presentDoor(door)
 {
     var table = document.getElementById("doorTable");
@@ -60,64 +77,31 @@ function presentDoor(door)
     actionUnlockCell.innerHTML = "<button class='unlockButton'>Unlock</button>";
     actionRemoveCell.innerHTML = "<button class='removeButton'>Remove</button>";
 
-    var openButtons = document.querySelectorAll('.openButton');
-    Array.prototype.forEach.call(openButtons, function addClickListener(btn) {
-        btn.addEventListener("click", function(event) {
-            var $row = $(this).closest("tr");
-            connection.invoke("OpenDoor", $row.find('td:first').text()).catch(function(err) {
-                return console.error(err.toString());
-            });
-            event.preventDefault();
-        });
-    });
+    registerClickEventForAction('.openButton', listenerMapForOpenButton, "OpenDoor");   
+    registerClickEventForAction('.closeButton', listenerMapForCloseButton, "CloseDoor");   
+    registerClickEventForAction('.lockButton', listenerMapForLockButton, "LockDoor");   
+    registerClickEventForAction('.unlockButton', listenerMapForUnlockButton, "UnlockDoor");    
+    registerClickEventForAction('.removeButton', listenerMapForRemoveButton, "RemoveDoor");    
+}
 
-    var closeButtons = document.querySelectorAll('.closeButton');
-    Array.prototype.forEach.call(closeButtons, function addClickListener(btn) {
-        btn.addEventListener("click", function(event) {
-            var $row = $(this).closest("tr");
-            connection.invoke("CloseDoor", $row.find('td:first').text()).catch(function(err) {
-                return console.error(err.toString());
+function registerClickEventForAction(queryIdentifier, listenerMap, serverReceiverMethodName) {
+    var buttons = document.querySelectorAll(queryIdentifier);
+    Array.prototype.forEach.call(buttons, function addClickListener(btn) {
+        var doorId = $(btn).closest("tr").find('td:first').text();
+        if (!(doorId in listenerMap)) {
+            listenerMap[doorId] = true;
+            btn.addEventListener("click", function (event) {
+                var $row = $(this).closest("tr");
+                connection.invoke(serverReceiverMethodName, $row.find('td:first').text()).catch(function (err) {
+                    return console.error(err.toString());
+                });
+                event.preventDefault();
             });
-            event.preventDefault();
-        });
-    });
-
-    var lockButtons = document.querySelectorAll('.lockButton');
-    Array.prototype.forEach.call(lockButtons, function addClickListener(btn) {
-        btn.addEventListener("click", function(event) {
-            var $row = $(this).closest("tr");
-            connection.invoke("LockDoor", $row.find('td:first').text()).catch(function(err) {
-                return console.error(err.toString());
-            });
-            event.preventDefault();
-        });
-    });
-
-    var unlockButtons = document.querySelectorAll('.unlockButton');
-    Array.prototype.forEach.call(unlockButtons, function addClickListener(btn) {
-        btn.addEventListener("click", function(event) {
-            var $row = $(this).closest("tr");
-            connection.invoke("UnlockDoor", $row.find('td:first').text()).catch(function(err) {
-                return console.error(err.toString());
-            });
-            event.preventDefault();
-        });
-    });
-
-    var removeButtons = document.querySelectorAll('.removeButton');
-    Array.prototype.forEach.call(removeButtons, function addClickListener(btn) {
-        btn.addEventListener("click", function(event) {
-            var $row = $(this).closest("tr");
-            connection.invoke("RemoveDoor", $row.find('td:first').text()).catch(function(err) {
-                return console.error(err.toString());
-            });
-            event.preventDefault();
-        });
+        }
     });
 }
 
 connection.on("DoorRemoved", function(doorId) {
-    clearMessages();
     var table = document.getElementById("doorTable");
     var indexToRemove = 0;
     for (var i = 1, row; row = table.rows[i]; i++)
@@ -128,11 +112,10 @@ connection.on("DoorRemoved", function(doorId) {
             break;
         }
     }
-    addMessage("A door has been removed.");
+    addSuccessMessage("A door has been removed.");
 });
 
 connection.on("DoorUpdated", function(doorData) {
-    clearMessages();
     const door = JSON.parse(doorData);
     var table = document.getElementById("doorTable");
     var doorId = `${ door.Id}`;
@@ -146,12 +129,12 @@ connection.on("DoorUpdated", function(doorData) {
             break;
         }
     }
-    addMessage("Door's status has been updated");
+    addSuccessMessage("Door's status has been updated");
 });
 
 connection.start().then(function() {
     document.getElementById("doorTable").disabled = false;
-    connection.invoke("InitSync").catch(function(err) {
+    connection.invoke("InitSynchronizeClient").catch(function(err) {
         return console.error(err.toString());
     });
 }).catch(function(err) {
