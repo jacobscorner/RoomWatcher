@@ -19,21 +19,20 @@
     </style>
 </head>
 <div class="container">
-    <div class="row p-1">
-        <div class="col-1">Door Label</div>
-        <div class="col-5"><input type="text" class="w-100" id="doorLabel" /></div>
+    <div id="errors" style="text-align:center;">
     </div>
-    <div class="row p-1">
-        <div class="col-6 text-end">
-            <input type="button" id="addDoor" value="Add Door" />
-        </div>
+    <div id="messages" style="text-align:center;">
     </div>
-    <div class="row p-1">
-        <div class="col-6">
-            <ul id="doorList"></ul>
-        </div>
+    <div>
+        <label for="doorLabel">Door Label</label>
+        <input for="addDoor" type="text" id="doorLabel" name="Door Label">
+        <input type="button" id="addDoor" value="Add Door" />
+        <br><br>        
+    </div>    
+    <div style="text-align:center;">
+        <b>Doors</b>
     </div>
-    <table id=doorTable>
+    <table id=doorTable name="Doors">
         <tr>
             <th>Id</th>
             <th>Label</th>
@@ -46,8 +45,6 @@
             <th>Remove</th>
         </tr>
     </table>
-</div>
-<div id="errors">
 </div>
 <script src="~/js/signalr/dist/browser/signalr.js"></script>
 <script src="~/js/doorClient.js"></script>

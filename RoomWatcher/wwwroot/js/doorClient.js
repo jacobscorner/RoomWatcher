@@ -8,18 +8,32 @@ connection.on("SyncAcked", function(doorListData) {
 });
 
 connection.on("HandleError", function(errorMessage) {
-    document.getElementById("errors").innerHTML = errorMessage;
+    clearMessages();
+    var errorElement = document.getElementById("errors");
+    errorElement.innerHTML = errorMessage;
+    errorElement.style.fontWeight = 'bold';
+    errorElement.style.color = 'red';
+    
 });
 
 connection.on("DoorAdded", function(doorData) {
-    clearErrors();
+    clearMessages();
     const door = JSON.parse(doorData);
     presentDoor(door);
+    addMessage("A new door has been added.");
 });
 
-function clearErrors()
+function clearMessages()
 {
     document.getElementById("errors").innerHTML = "";
+    document.getElementById("messages").innerHTML = "";
+}
+
+function addMessage(message) {
+    var messageElement = document.getElementById("messages");
+    messageElement.innerHTML = message;
+    messageElement.style.fontWeight = 'bold';
+    messageElement.style.color = 'green';
 }
 function presentDoor(door)
 {
@@ -103,7 +117,7 @@ function presentDoor(door)
 }
 
 connection.on("DoorRemoved", function(doorId) {
-    clearErrors();
+    clearMessages();
     var table = document.getElementById("doorTable");
     var indexToRemove = 0;
     for (var i = 1, row; row = table.rows[i]; i++)
@@ -114,10 +128,11 @@ connection.on("DoorRemoved", function(doorId) {
             break;
         }
     }
+    addMessage("A door has been removed.");
 });
 
 connection.on("DoorUpdated", function(doorData) {
-    clearErrors();
+    clearMessages();
     const door = JSON.parse(doorData);
     var table = document.getElementById("doorTable");
     var doorId = `${ door.Id}`;
@@ -131,6 +146,7 @@ connection.on("DoorUpdated", function(doorData) {
             break;
         }
     }
+    addMessage("Door's status has been updated");
 });
 
 connection.start().then(function() {
