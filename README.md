@@ -13,10 +13,10 @@ I picked up challenge 3 with the requirements written in challenge 1. My main id
 
 ## Summary
 Using signalr client<>server communication, clients communicate with each other mediated by a 
-server. This is a Aspnet web app containing a raw javascript client.
+server. This is an asp.net web app including javascript client.
 
 ## Features
-* I went with simple ui which includes door configuration and monitoring since I didnt want to spend too much time on UI.
+* I went with a simple ui which includes door configuration and monitoring since I didnt want to spend too much time on UI.
 * A new client can see a start screen with all existing doors. This is paramount as a client can be spun at a later point in time.
 * Clients can add doors(with a label), remove doors, perform below actions.
 * There are 4 actions.
