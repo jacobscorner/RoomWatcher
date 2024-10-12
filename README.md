@@ -60,12 +60,12 @@ server. This is a Aspnet web app containing a raw javascript client.
         - door can be added and removed by admin.
         - door can be locked/unlocked by security.
         - door can be opened/closed by employees.
-- Do we have query requirements for doors ?  can be used for filtering from UI?
-    *If yes,  should we support tagging the doors? eg add 'important' tag to a door so that we can use it in filter queries
+- Do we have query requirements for doors ?  It can be used for filtering from UI.
+    * If yes,  should we support tagging the doors? eg add 'important' tag to a door so that we can use it in filter queries
 - Should door carry a state ? eg. 'Under maintenance'/'Temporarily down' such that we can handle door properties accordingly.
-- Should doors have an association to enclosure since doors can have shared enclosures.
-    * Enclosure can be comprised when one of the door is compromised.
-- Do we need door grouping ? set of doors for a particular floor or area etc.
+- Should doors have compositions?
+    * An Enclosure can have multiple doors. Enclosure can be comprised when one of the door is compromised.
+    * Set of doors can be grouped to door-groups. i.e those belongs to a particular floor or area etc.
 - Alerting to target group incase of certain events, actions (sms, call etc).
 - Analytics of certain events, state changes. eg. How many times a specific door has been opened, such stuffs.
 - UX improvements.
