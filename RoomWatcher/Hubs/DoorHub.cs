@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.SignalR;
-using RoomWatcher.Database;
+using RoomWatcher.Model;
 
 namespace RoomWatcher.Hubs
 {
@@ -26,7 +26,7 @@ namespace RoomWatcher.Hubs
             }
             if (!errorOccurred)
             {
-                Door newDoor = Door.addDoor(doorLabel);
+                Door newDoor = DoorService.addDoor(doorLabel);
                 if (newDoor == null)
                 {
                     errorOccurred = true;
@@ -46,13 +46,13 @@ namespace RoomWatcher.Hubs
 
         public async Task RemoveDoor(string doorId)
         {
-            Door.removeDoor(doorId);
+            DoorService.removeDoor(doorId);
             await Clients.All.SendAsync("DoorRemoved", doorId);
         }
 
         public async Task LockDoor(string doorId)
         {
-            Door doorToUpdate = Door.getDoor(doorId);
+            Door doorToUpdate = DoorService.getDoor(doorId);
             if (DoorService.IsAlreadyLocked(doorToUpdate))
             {
                 await Clients.Caller.SendAsync("HandleWarning", "Selected door is already locked");
@@ -63,7 +63,7 @@ namespace RoomWatcher.Hubs
             }
             else
             {
-                Door updatedDoor = Door.LockDoor(doorId);
+                Door updatedDoor = DoorService.LockDoor(doorId);
                 var updatedDoorSerialized = Newtonsoft.Json.JsonConvert.SerializeObject(updatedDoor);
                 await Clients.All.SendAsync("DoorUpdated", updatedDoorSerialized);
             }            
@@ -71,7 +71,7 @@ namespace RoomWatcher.Hubs
 
         public async Task UnlockDoor(string doorId)
         {
-            Door doorToUpdate = Door.getDoor(doorId);
+            Door doorToUpdate = DoorService.getDoor(doorId);
             if (DoorService.IsAlreadyUnlocked(doorToUpdate))
             {
                 await Clients.Caller.SendAsync("HandleWarning", "Selected door is already unlocked");
@@ -82,7 +82,7 @@ namespace RoomWatcher.Hubs
             }
             else
             {
-                Door updatedDoor = Door.UnlockDoor(doorId);
+                Door updatedDoor = DoorService.UnlockDoor(doorId);
                 var updatedDoorSerialized = Newtonsoft.Json.JsonConvert.SerializeObject(updatedDoor);
                 await Clients.All.SendAsync("DoorUpdated", updatedDoorSerialized);
             }
@@ -90,7 +90,7 @@ namespace RoomWatcher.Hubs
 
         public async Task OpenDoor(string doorId)
         {
-            Door doorToUpdate = Door.getDoor(doorId);
+            Door doorToUpdate = DoorService.getDoor(doorId);
             if (DoorService.IsAlreadyOpened(doorToUpdate))
             {
                 await Clients.Caller.SendAsync("HandleWarning", "Selected door is already opened");
@@ -101,7 +101,7 @@ namespace RoomWatcher.Hubs
             }
             else
             {
-                Door updatedDoor = Door.OpenDoor(doorId);
+                Door updatedDoor = DoorService.OpenDoor(doorId);
                 var updatedDoorSerialized = Newtonsoft.Json.JsonConvert.SerializeObject(updatedDoor);
                 await Clients.All.SendAsync("DoorUpdated", updatedDoorSerialized);
             }
@@ -109,7 +109,7 @@ namespace RoomWatcher.Hubs
 
         public async Task CloseDoor(string doorId)
         {
-            Door doorToUpdate = Door.getDoor(doorId);
+            Door doorToUpdate = DoorService.getDoor(doorId);
             if (DoorService.IsAlreadyClosed(doorToUpdate))
             {
                 await Clients.Caller.SendAsync("HandleWarning", "Selected door is already closed");
@@ -120,7 +120,7 @@ namespace RoomWatcher.Hubs
             }
             else
             {
-                Door updatedDoor = Door.CloseDoor(doorId);
+                Door updatedDoor = DoorService.CloseDoor(doorId);
                 var updatedDoorSerialized = Newtonsoft.Json.JsonConvert.SerializeObject(updatedDoor);
                 await Clients.All.SendAsync("DoorUpdated", updatedDoorSerialized);
             }

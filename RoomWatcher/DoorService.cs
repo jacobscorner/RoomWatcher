@@ -1,4 +1,5 @@
 ﻿using RoomWatcher.Database;
+using RoomWatcher.Model;
 
 namespace RoomWatcher
 {
@@ -6,7 +7,22 @@ namespace RoomWatcher
     {
         public static List<Door> getDoors()
         {
-            return Door.getDoors();
+            return DoorStubRepositoryProvider.getDoors();
+        }
+
+        public static Door getDoor(string doorId)
+        {
+            return DoorStubRepositoryProvider.getDoor(doorId);
+        }
+
+        public static Door addDoor(string doorLabel)
+        {
+            return DoorStubRepositoryProvider.addDoor(doorLabel);
+        }
+
+        public static void removeDoor(string doorId)
+        {
+            DoorStubRepositoryProvider.removeDoor(doorId);
         }
 
         public static bool IsAlreadyOpened(Door door)
@@ -29,6 +45,11 @@ namespace RoomWatcher
             return result;
         }
 
+        public static Door OpenDoor(string doorId)
+        {
+            return DoorStubRepositoryProvider.OpenDoor(doorId);
+        }
+
         public static bool IsAlreadyClosed(Door door)
         {
             bool result = false;
@@ -48,6 +69,12 @@ namespace RoomWatcher
             }
             return result;
         }
+
+        public static Door CloseDoor(string doorId)
+        {
+            return DoorStubRepositoryProvider.CloseDoor(doorId);
+        }
+
         public static bool IsAlreadyLocked(Door door)
         {
             bool result = false;
@@ -65,6 +92,11 @@ namespace RoomWatcher
                 result = true;
             }
             return result;
+        }
+
+        public static Door LockDoor(string doorId)
+        {
+            return DoorStubRepositoryProvider.LockDoor(doorId);
         }
 
         public static bool IsAlreadyUnlocked(Door door)
@@ -85,6 +117,11 @@ namespace RoomWatcher
                 result = true;
             }
             return result;
-        }        
+        }
+
+        public static Door UnlockDoor(string doorId)
+        {
+            return DoorStubRepositoryProvider.UnlockDoor(doorId);
+        }
     }
 }
