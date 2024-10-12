@@ -53,13 +53,13 @@ server. This is a Aspnet web app containing a raw javascript client.
         production, I have also assumed it as the DTO.
 
 ## Questions to Customer
-- Do we need time-stamps for created-at, updated-at.
+- Do we need created-at, updated-at for doors.
 - Do we need user support ? client need to login with user credentials.
-    * If yes, created-by, last updated-by for door data.
+    * If yes, does door need created-by, last updated-by info.
     * if yes, should we add role based access and authorization level for doors, door groups, enclosures. Eg below:
-    * door can be added and removed by admin.
-    * door can be locked/unlocked by security.
-    * door can be opened/closed by employees.
+        - door can be added and removed by admin.
+        - door can be locked/unlocked by security.
+        - door can be opened/closed by employees.
 - Do we have query requirements for doors ?  can be used for filtering from UI?
     *If yes,  should we support tagging the doors? eg add 'important' tag to a door so that we can use it in filter queries
 - Should door carry a state ? eg. 'Under maintenance'/'Temporarily down' such that we can handle door properties accordingly.
