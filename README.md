@@ -12,7 +12,7 @@ I picked up challenge 3 with the requirements written in challenge 1. My main id
     - signalr framework.
 
 ## Summary
-Using signalr client<>server communication, I provide clients to talk to each other mediated by a 
+Using signalr client<>server communication, clients communicate with each other mediated by a 
 server. This is a Aspnet web app containing a raw javascript client.
 
 ## Features
