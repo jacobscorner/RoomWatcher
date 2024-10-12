@@ -78,3 +78,11 @@ server. This is a Aspnet web app containing a raw javascript client.
 - Move to binding-based UI client(MVC approach) so that I dont want to restitch UI manually on data change.
 - Add actual db implementation. Reduce the data-fetch (getDoor()) comparing to current implementation.
 - docker integration for transporting. I have left this as Im yet to ramp up on it.
+
+## Steps to run the app
+- Install VS 2022.
+- Clone this repo.
+- Build the RoomWatcher project.
+- Run the app.
+- You will get the client-app popped-up in https://localhost:7067/
+- Open this in more tabs to spin more clients.
