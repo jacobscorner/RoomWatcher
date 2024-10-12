@@ -5,7 +5,7 @@ I picked up challenge 3 with the requirements written in challenge 1. My main id
 - express the logic in c#
 
 ## Why I chose challenge 3?
-- Though I'm ready and eager to learn to new stuffs which are react, wpf, wcf, I didnot want to fall out on timeline.
+- Though I'm ready and eager to learn new stuffs, I didnot want to fall out on timeline.
 - Yet, I had to ramp-up on 
     - aspnet webapp
     - javascript
@@ -38,7 +38,7 @@ server. This is a Aspnet web app containing a raw javascript client.
 ![B](EventFlowDiagram.jpg?raw=true "Eventflow diagram")
 
 * js client is built with html and raw js.
-* signarlr-hub(server) has been implemented with components top down as listed below
+* signarlr-hub(server) has been implemented with components top down as listed below. Service
     - Hub/ controller(DoorHub.cs)
         * receives events and delegates to Service layer
         * returns messages and serialized data objects back to clients asynchronously.
@@ -82,9 +82,11 @@ server. This is a Aspnet web app containing a raw javascript client.
 - UX improvements.
 
 ## Things to expand
-- I'm not talking about additional features since i mentioned those in 'Questions to customer' section
-- add dto and mapper to map between dto and model in both directions.
-- improved error handling with exception class and its specializations along with more validations.
+- I've added areas of feature expansion under previous 'Questions to Customer' section.
+- Add dto and mapper( to map between dto and model in both directions) such that external model is disjoint with internal model.
+- In enterprise form, I would like to switch the static classes to singleton classes(implemented on interfaces) such that I can dictate the structure and make it unit testing friendly.
+- In enterprise form, I would like to add logging.
+- In enterprise form, I would like an improved error handling setup with exception classes and its specializations along with more validations.
 - more thin data transfer(objectref, properties changed, operation) between client and server. Currently im passing the complete object.
 - Move to binding-based UI client(MVC approach) so that I dont want to restitch UI manually on data change.
 - Add actual db implementation. Reduce the data-fetch (getDoor()) comparing to current implementation.
