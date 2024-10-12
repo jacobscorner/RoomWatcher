@@ -53,9 +53,14 @@ server. This is a Aspnet web app containing a raw javascript client.
         production, I have also assumed it as the DTO.
 
 ## Questions to Customer
-- Do we need time-stamps for created-at, updated-at, created-by, last updated-by.
+- Do we need time-stamps for created-at, updated-at.
 - Do we need user support ? client need to login with user credentials.
-- Should we have query requirements for doors in UX for filtering ?
+    * If yes, created-by, last updated-by for door data.
+    * if yes, should we add role based access and authorization level for doors, door groups, enclosures. Eg below:
+    * door can be added and removed by admin.
+    * door can be locked/unlocked by security.
+    * door can be opened/closed by employees.
+- Do we have query requirements for doors ?  can be used for filtering from UI?
     *If yes,  should we support tagging the doors? eg add 'important' tag to a door so that we can use it in filter queries
 - Should door carry a state ? eg. 'Under maintenance'/'Temporarily down' such that we can handle door properties accordingly.
 - Should doors have an association to enclosure since doors can have shared enclosures.
@@ -63,10 +68,6 @@ server. This is a Aspnet web app containing a raw javascript client.
 - Do we need door grouping ? set of doors for a particular floor or area etc.
 - Alerting to target group incase of certain events, actions (sms, call etc).
 - Analytics of certain events, state changes. eg. How many times a specific door has been opened, such stuffs.
-- if we have user supportm, should we add role based access and authorization level for doors, door groups, enclosures. Eg below:
-    * door can be added and removed by admin.
-    * door can be locked/unlocked by security.
-    * door can be opened/closed by employees.
 - UX improvements.
 
 ## Things to expand
