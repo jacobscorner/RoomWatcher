@@ -28,7 +28,7 @@ server. This is a Aspnet web app containing a raw javascript client.
 * An open door can be closed.
 * A closed door can be opened unless its locked.
 * Locked door can be unlocked.
-* A door can be locked if its closed.
+* A door can be locked only if its closed.
 * Clients see the changes concurrently.
 
 ## Design
@@ -52,6 +52,17 @@ server. This is a Aspnet web app containing a raw javascript client.
         * core definition of door entity. For the ease of expression and since its not
         production, I have also assumed it as the DTO.
 
+## Doors table format
+  * ID(door Id)
+  * Label(door name)
+  * Is Closed(When the value is 'true', the door is closed)
+  * Open(action button to open the door)
+  * Close(action button to close the door)
+  * Is Locked(When the value is 'true', the door is locked)
+  * Lock(action button to lock the door)
+  * Unlock(action button to unlock the door)
+  * Remove(action button to remove the respective door)
+      
 ## Questions to Customer
 - Do we need created-at, updated-at for doors.
 - Do we need user support ? client need to login with user credentials.
@@ -86,3 +97,21 @@ server. This is a Aspnet web app containing a raw javascript client.
 - Run the app.
 - You will get the client-app popped-up in https://localhost:7067/
 - Open this in more tabs to spin more clients.
+
+## Testcase
+- Add Door
+    * Provide a 'Door Label' value & Click on 'Add Door' button. _You should see the new door added in the table below._
+    * Click on 'Add Door' without providing a door label. _You should see an error message._
+- Perform Actions(Open, Close, Lock, Unlock, Remove) 
+    * Add few doors
+    * Try combinations of Actions in the table.
+      - Verify : An open door can be closed.
+      - Verify : A closed door can be opened unless its locked.
+      - Verify : Locked door can be unlocked.
+      - Verify : A door can be locked only if its closed.
+    * verfiy the concurrent changes in all clients along with the success message alerts.
+- Spin up a new client after adding few doors from another client. _You should see existing doors listed in new client._
+- After adding 2 clients(A and B),
+    * From client A, perform 'open' action  when the door is open(IsClosed = false). _You should observe warning in  client A only._
+    * From client A, perform 'Add Door' with no label. _You should observe error in  client A only._
+
