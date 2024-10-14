@@ -17,12 +17,12 @@ server. This is an asp.net web app including javascript client.
 
 ## Features
 * I went with a simple ui which includes door configuration and monitoring since I didnt want to spend too much time on UI.
-* A new client can see a start screen with all existing doors. This is paramount as a client can be spun at a later point in time.
+* A new client can see a start screen with all existing doors. This is paramount as a new client can be spun at a later point in time.
 * Clients can add doors(with a label), remove doors, perform below actions.
 * There are 4 actions.
     - On IsClosed property, we have two actions 'Open' and 'Close'.
     - On IsLocked property, we have two actions 'Lock' and 'Unlock'.
-* warnings and errors are only already returned to caller who triggered the event.
+* warnings and errors are only returned to caller who triggered the event.
 * success messages are broadcasted to all clients as changes are relevant to them. This can also act as a notification about new changes.
 * If any action, which triggers no state change, its a warning. eg, Going from 'open' to 'open' state.
 * An open door can be closed.
